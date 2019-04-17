@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+import rospy
+import tf
+import tf2_ros
+import geometry_msgs.msg
+import numpy
+
+def publish_transforms():
+    #transformation from 'base' to 'object'
+    u, v, w = 0.79, 0.0, 0.79
+    origin, x, y, z = (0,0,0),(1,0,0),(0,1,0),(0,0,1)
+    Rx = tf.transformations.rotation_matrix(u, x)
+    Ry = tf.transformations.rotation_matrix(v,y)
+    Rz = tf.transformations.rotation_matrix(w,z)
+    R1 = tf.transformations.concatenate_matrices(Rx,Ry,Rz)
+    t1 = tf.transformations.translation_matrix((0.0,1.0,1.0))
+    T1 = tf.transformations.concatenate_matrices((R1,t1))
+    T1_Stamped = geometry_msgs.msg.TransformStamped()
+    T1_Stamped.header.stamp = rospy.Time.now()
+    T1_Stamped.header.frame_id = 'Base'
+    T1_Stamped.child_frame_id = 'Object'
+    #T1_Stamped.transform = geometry_msgs.msg(T1)
+    br.sendTransform(T1_Stamped)
+
+    
+    #transformation from 'base' to 'robot'
+    u2, v2, w2 = (0.0), (0.0), (1.5)
+    x2, y2, z2 = (1,0,0),(0,1,0),(0,0,1)
+    Rx2 = tf.transformations.rotation_matrix(u2, x2)
+    Ry2 = tf.transformations.rotation_matrix(v2,y2)
+    Rz2 = tf.transformations.rotation_matrix(w2,z2)
+    R2 = tf.transformations.concatenate_matrices(Rx2,Ry2,Rz2)
+    t2 = tf.transformations.translation_matrix((0.0,0.0,1.0))
+    T2 = tf.transformations.concatenate_matrices((R2,t2))
+    T2_Time_Stamped = geometry_msgs.msg.TransformStamped()
+    T2_Stamped.header.stamp = rospy.Time.now()
+    T2_Stamped.header.frame_id = 'Base'
+    T2_Stamped.child_frame_id = 'Robot'
+    #T2_Stamped.transform = geometry_msgs.msg(T2)
+    br.sendTransform(T2_Stamped)
+
+
+    #transformation from 'robot' to 'camera'
+    R_inverse = tf.transformations.inverse_matrix(T1)
+    t3 = tf.transforms.translation_matrix((0.0),(0.1),(0.1))
+    T3.header.stamp = rospy.time()
+    T3.header.frame_id = 'Robot'
+    T3.child_frame_id = 'Camera'
+    T3.transform = geomerty_msgs.msg(T3)
+    br.sendTransform(T3)
+
+if __name__ == '__main__':
+    rospy.init_node('Robot_Joints')
+    br = tf2_ros.TransformBroadcaster()
+    rospy.sleep(1)
+
+    while not rospy.is_shutdown(): #while Cntrl-C hasn't been pressed
+	publish_transforms()
+	listener()
+        rospy.sleep(1)
