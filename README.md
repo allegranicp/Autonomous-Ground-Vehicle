@@ -14,4 +14,8 @@ Small scale autonomous vehicle which combines senor fusion, computer vision and 
 [image1]: ./images/IMG_0373.jpeg"
 [image2]: ./images/IMG_0374.jpeg"
 
+![alt text][image0]
+![alt text][image1]
+![alt text][image2]
+
 More code coming soon!
