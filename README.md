@@ -2,7 +2,7 @@
 
 Overview
 ---
-Small scale autonomous vehicle which combines senor fusion, computer vision and artificial intelligence to perform obstacle avoidance, detection and localization.
+Small scale autonomous vehicle which combines sensor fusion, computer vision and artificial intelligence to perform obstacle avoidance, detection and localization.
 
 * Built from a pre-fabricated chasis
 * RPLIDAR and Pixy Cam are integrated with Raspberry PI Model B+ for object detection and localization
